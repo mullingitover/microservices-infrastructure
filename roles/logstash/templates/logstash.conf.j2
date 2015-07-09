@@ -2,6 +2,7 @@ input {
   file {
     path => "/logs/docker/*/*-json.log"
     type => docker
+    codec => json
   }
   file {
     path => "/logs/mesos/*"
@@ -33,7 +34,37 @@ input {
 {% endif %}
 }
 
+filter {
+  if [type] == "docker" {
+    json {
+      source => "message"
+    }
+    mutate {
+      rename => [ "log", "message" ]
+    }
+    date {
+      match => [ "time", "ISO8601" ]
+    }
+    grok {
+      match => { "path" => "%{GREEDYDATA}/%{GREEDYDATA:container_id}-json.log" }
+    }
+  }
+
+  if [type] == "syslog" {
+    mutate {
+      replace => { "host" => "{{ inventory_hostname }}" }
+    }
+  }
+}
+
 output {
+{% if logstash_output_elasticsearch is defined %}
+  elasticsearch {
+  {% for key, val in logstash_output_elasticsearch.iteritems() %}
+    {{ key }} => {{ val | to_nice_json }}
+  {% endfor %}
+  }
+{% endif %}
 {% if logstash_output_stdout %}
   stdout {
     codec => rubydebug

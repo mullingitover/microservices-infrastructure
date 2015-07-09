@@ -1,6 +1,45 @@
 Changelog
 =========
 
+0.3.2 (June 30, 2015)
+---------------------
+
+Features
+^^^^^^^^
+
+* Add Minecraft sample app #506
+* Add documentation for all components that were missing it #520
+* Add ElasticSearch output for Logstash #524 (see ``logstash_output_elasticsearch`` in :doc:`components/logstash`)
+* Add filesystem-backed Marathon artifact store #525
+
+Fixes
+^^^^^
+
+* Update docs to clarify required Python version #515
+* Fix typo in the Nginx proxy setup for Mesos #521
+* Explicitly specify PyYAML version in ``requirements.txt``
+* Support SSH key passphrase and any key name in the Docker builder #517
+
+0.3.1 (June 17, 2015)
+---------------------
+
+Features
+^^^^^^^^
+
+* Add Distributive system checker #434
+* Add Chronos role  #437
+* Add DigitalOcean terraform provider #449
+* Add VMware vSphere terraform provider #471
+* Support for terraform in Dockerfile #481
+
+Fixes
+^^^^^
+
+* Use default security group in OpenStack #477
+* Allow ``terraform.py`` to use configurable usernames #491
+* Change "disable security" to "check security" in ``security-setup`` #494
+* Stop logstash variables from showing up as a top-level component in docs #482
+
 0.3.0 (June 8, 2015)
 --------------------
 
